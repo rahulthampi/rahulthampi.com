@@ -1,10 +1,25 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { Suspense, lazy } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 
-const RootEl = styled.div``;
+import { commonTheme } from './theme/root';
+
+const Landing = lazy(() =>
+  import(/* webpackChunkName: "landing" */ './pages/Landing'),
+);
 
 const App: React.FC = () => {
-  return <RootEl>{'Hello World!!!'}</RootEl>;
+  return (
+    <ThemeProvider theme={commonTheme}>
+      <Suspense fallback={<h4>Please be patient.</h4>}>
+        <Switch>
+          <Route path="/">
+            <Landing />
+          </Route>
+        </Switch>
+      </Suspense>
+    </ThemeProvider>
+  );
 };
 
 export default App;
